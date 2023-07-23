@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "swift-binary",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:spacenation/swift-binary.git",
+      "state" : {
+        "revision" : "31b5b18556610a5639d50eb56575b6a54db13f1c",
+        "version" : "1.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}
