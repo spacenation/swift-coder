@@ -18,6 +18,9 @@ let package = Package(
         .library(
             name: "StringDecoder",
             targets: ["StringDecoder"]),
+        .library(
+            name: "StringEncoder",
+            targets: ["StringEncoder"])
     ],
     dependencies: [
         .package(url: "git@github.com:spacenation/swift-binary.git", .upToNextMajor(from: "1.1.0"))
