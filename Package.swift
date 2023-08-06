@@ -27,7 +27,11 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Coder"),
+            name: "Coder",
+            dependencies: [
+                .product(name: "Binary", package: "swift-binary")
+            ]
+        ),
         .testTarget(
             name: "CoderTests",
             dependencies: ["Coder"]),

@@ -15,3 +15,11 @@ public func space() -> StringDecoder<String, StringDecoderFailure> {
 public func newline() -> StringDecoder<String, StringDecoderFailure> {
     match("\n")
 }
+
+public let horizontalWhitespace: StringDecoder<String, StringDecoderFailure> = tab().or(space()).many.map { String($0.flatMap { $0 }) }
+
+public extension StringDecoder where Failure == StringDecoderFailure {
+    var insideHorizontalWhitespace: Self {
+        self.between(horizontalWhitespace)
+    }
+}

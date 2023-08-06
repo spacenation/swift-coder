@@ -1,5 +1,6 @@
 import Foundation
 @_exported import Coder
+@_exported import Binary
 
 public struct StringDecoder<Element, Failure: Error> {
     public typealias Input = State
@@ -19,7 +20,7 @@ public struct StringDecoder<Element, Failure: Error> {
 
 public extension StringDecoder {
     func callAsFunction(_ string: String) -> Output {
-        decode(State(string: string, offset: 0))
+        decode(State(string: string, offset: 0, line: 1, column: 1))
     }
 }
 

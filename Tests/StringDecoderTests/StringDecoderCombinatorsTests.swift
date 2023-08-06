@@ -8,7 +8,7 @@ final class StringDecoderCombinatorsTests: XCTestCase {
         switch match(Character("c")).decode(["c"]) {
         case .success((let element, let state)):
             XCTAssertEqual(element, "c")
-            XCTAssertEqual(state, State(string: "c", offset: 1))
+            XCTAssertEqual(state, State(string: "c", offset: 1, line: 1, column: 2))
         case .failure(_):
             XCTFail()
         }
@@ -19,56 +19,56 @@ final class StringDecoderCombinatorsTests: XCTestCase {
         let number: StringDecoder<Character, StringDecoderFailure> = satisfy({ $0.isNumber })
         let alphanumeric: StringDecoder<String, StringDecoderFailure> = letter.or(number).many.map { String($0) }
         
-        switch alphanumeric.decode(State(string: "ccc11!", offset: 0)) {
+        switch alphanumeric.decode(State(string: "ccc11!", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, "ccc11")
-            XCTAssertEqual(state, State(string: "ccc11!", offset: 5))
+            XCTAssertEqual(state, State(string: "ccc11!", offset: 5, line: 1, column: 7))
         case .failure(_):
             XCTFail()
         }
         
-        switch satisfy({ $0.isLetter }).many.map({ String($0) }).decode(State(string: "ccc11", offset: 0)) {
+        switch satisfy({ $0.isLetter }).many.map({ String($0) }).decode(State(string: "ccc11", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, "ccc")
-            XCTAssertEqual(state, State(string: "ccc11", offset: 3))
+            XCTAssertEqual(state, State(string: "ccc11", offset: 3, line: 1, column: 5))
         case .failure(_):
             XCTFail()
         }
         
-        switch satisfy({ $0.isLetter }).many.map({ String($0) }).decode(State(string: "1", offset: 0)) {
+        switch satisfy({ $0.isLetter }).many.map({ String($0) }).decode(State(string: "1", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, "")
-            XCTAssertEqual(state, State(string: "1", offset: 0))
+            XCTAssertEqual(state, State(string: "1", offset: 0, line: 1, column: 2))
         case .failure(_):
             XCTFail()
         }
         
-        switch satisfy({ $0.isLetter }).many.map({ String($0) }).decode(State(string: "", offset: 0)) {
+        switch satisfy({ $0.isLetter }).many.map({ String($0) }).decode(State(string: "", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, "")
-            XCTAssertEqual(state, State(string: "", offset: 0))
+            XCTAssertEqual(state, State(string: "", offset: 0, line: 1, column: 2))
         case .failure(_):
             XCTFail()
         }
     }
     
     func testSomeCombinator() {
-        switch satisfy({ $0.isLetter }).some.decode(State(string: "ccc11", offset: 0)) {
+        switch satisfy({ $0.isLetter }).some.decode(State(string: "ccc11", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, ["c", "c", "c"])
-            XCTAssertEqual(state, State(string: "ccc11", offset: 3))
+            XCTAssertEqual(state, State(string: "ccc11", offset: 3, line: 1, column: 5))
         case .failure(_):
             XCTFail()
         }
         
-        switch satisfy({ $0.isLetter }).some.decode(State(string: "1", offset: 0)) {
+        switch satisfy({ $0.isLetter }).some.decode(State(string: "1", offset: 0, line: 1, column: 2)) {
         case .success:
             XCTFail()
         case .failure(let failure):
             XCTAssertEqual(failure, .mismatchedPrimitive(0))
         }
         
-        switch satisfy({ $0.isLetter }).some.decode(State(string: "", offset: 0)) {
+        switch satisfy({ $0.isLetter }).some.decode(State(string: "", offset: 0, line: 1, column: 2)) {
         case .success:
             XCTFail()
         case .failure(let failure):
@@ -80,15 +80,15 @@ final class StringDecoderCombinatorsTests: XCTestCase {
         let letter: StringDecoder<Character, StringDecoderFailure> = satisfy({ $0.isLetter })
         let number: StringDecoder<Character, StringDecoderFailure> = satisfy({ $0.isNumber })
         
-        switch letter.some(separatedBy: number).decode(State(string: "a1b2c3!!", offset: 0)) {
+        switch letter.some(separatedBy: number).decode(State(string: "a1b2c3!!", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, ["a", "b", "c"])
-            XCTAssertEqual(state, State(string: "a1b2c3!!", offset: 5))
+            XCTAssertEqual(state, State(string: "a1b2c3!!", offset: 5, line: 1, column: 7))
         case .failure(_):
             XCTFail()
         }
         
-        switch letter.some(separatedBy: number).decode(State(string: "1", offset: 0)) {
+        switch letter.some(separatedBy: number).decode(State(string: "1", offset: 0, line: 1, column: 2)) {
         case .success:
             XCTFail()
         case .failure(let failure):
@@ -101,10 +101,10 @@ final class StringDecoderCombinatorsTests: XCTestCase {
         let number: StringDecoder<Character, StringDecoderFailure> = satisfy({ $0.isNumber })
         let space: StringDecoder<Character, StringDecoderFailure> = match(" ")
         
-        switch letter.many(separatedBy: number).decode(State(string: "a1b2c3!!", offset: 0)) {
+        switch letter.many(separatedBy: number).decode(State(string: "a1b2c3!!", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, ["a", "b", "c"])
-            XCTAssertEqual(state, State(string: "a1b2c3!!", offset: 5))
+            XCTAssertEqual(state, State(string: "a1b2c3!!", offset: 5, line: 1, column: 7))
         case .failure:
             XCTFail()
         }
@@ -125,15 +125,15 @@ final class StringDecoderCombinatorsTests: XCTestCase {
         switch thisDecoder("call(AA BB CC)") {
         case .success((let element, let state)):
             XCTAssertEqual(element, This(name: "call", argumants: ["AA", "BB", "CC"]))
-            XCTAssertEqual(state, State(string: "call(AA BB CC)", offset: 14))
+            XCTAssertEqual(state, State(string: "call(AA BB CC)", offset: 14, line: 1, column: 15))
         case .failure:
             XCTFail()
         }
         
-        switch letter.many(separatedBy: number).decode(State(string: "1", offset: 0)) {
+        switch letter.many(separatedBy: number).decode(State(string: "1", offset: 0, line: 1, column: 2)) {
         case .success((let element, let state)):
             XCTAssertEqual(element, [])
-            XCTAssertEqual(state, State(string: "1", offset: 0))
+            XCTAssertEqual(state, State(string: "1", offset: 0, line: 1, column: 2))
         case .failure:
             XCTFail()
         }
@@ -143,11 +143,11 @@ final class StringDecoderCombinatorsTests: XCTestCase {
         switch satisfy({ $0.isLetter })
             .tryAhead(match("nn"))
             .many
-            .decode(State(string: "cadnntest", offset: 0))
+            .decode(State(string: "cadnntest", offset: 0, line: 1, column: 2))
         {
         case .success((let element, let state)):
             XCTAssertEqual(element, ["c", "a", "d"])
-            XCTAssertEqual(state, State(string: "cadnntest", offset: 3))
+            XCTAssertEqual(state, State(string: "cadnntest", offset: 3, line: 1, column: 5))
         case .failure(_):
             XCTFail()
         }
@@ -156,18 +156,18 @@ final class StringDecoderCombinatorsTests: XCTestCase {
     func testLookAheadCombinator() {
         switch satisfy({ $0.isLetter })
             .lookAhead(match(Character("c")))
-            .decode(State(string: "cca", offset: 0))
+            .decode(State(string: "cca", offset: 0, line: 1, column: 2))
         {
         case .success((let element, let state)):
             XCTAssertEqual(element, Character("c"))
-            XCTAssertEqual(state, State(string: "cca", offset: 1))
+            XCTAssertEqual(state, State(string: "cca", offset: 1, line: 1, column: 3))
         case .failure(_):
             XCTFail()
         }
         
         switch satisfy({ $0.isLetter })
             .lookAhead(match(Character("c")))
-            .decode(State(string: "j1a", offset: 0))
+            .decode(State(string: "j1a", offset: 0, line: 1, column: 2))
         {
         case .success:
             XCTFail()

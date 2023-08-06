@@ -7,7 +7,7 @@ public extension StringDecoder {
             case .success:
                 return self.decode(input)
             case .failure:
-                return self.decode(State(string: "", offset: input.offset))
+                return self.decode(State(string: "", offset: input.offset, line: input.line, column: input.column))
             }
         }
     }

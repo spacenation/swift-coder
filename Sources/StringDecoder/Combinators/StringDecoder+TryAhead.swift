@@ -5,7 +5,7 @@ public extension StringDecoder {
         StringDecoder { input in
             switch forwardEncoder(input) {
             case .success:
-                return self.decode(State(string: "", offset: input.offset))
+                return self.decode(State(string: "", offset: input.offset, line: input.line, column: input.column))
             case .failure:
                 return self.decode(input)
             }
