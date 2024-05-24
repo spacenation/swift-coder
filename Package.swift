@@ -23,13 +23,15 @@ let package = Package(
             targets: ["StringEncoder"])
     ],
     dependencies: [
-        .package(url: "git@github.com:spacenation/swift-binary.git", .upToNextMajor(from: "1.1.0"))
+        .package(url: "git@github.com:spacenation/swift-binary.git", .upToNextMajor(from: "1.1.0")),
+        .package(url: "git@github.com:spacenation/swift-functional.git", .upToNextMajor(from: "0.1.0"))
     ],
     targets: [
         .target(
             name: "Coder",
             dependencies: [
-                .product(name: "Binary", package: "swift-binary")
+                .product(name: "Binary", package: "swift-binary"),
+                .product(name: "Functional", package: "swift-functional")
             ]
         ),
         .testTarget(
@@ -42,7 +44,8 @@ let package = Package(
             name: "BinaryDecoder",
             dependencies: [
                 "Coder",
-                .product(name: "Binary", package: "swift-binary")
+                .product(name: "Binary", package: "swift-binary"),
+                .product(name: "Functional", package: "swift-functional")
             ]
         ),
         .testTarget(name: "BinaryDecoderTests", dependencies: ["BinaryDecoder"]),
@@ -53,7 +56,8 @@ let package = Package(
             name: "BinaryEncoder",
             dependencies: [
                 "Coder",
-                .product(name: "Binary", package: "swift-binary")
+                .product(name: "Binary", package: "swift-binary"),
+                .product(name: "Functional", package: "swift-functional")
             ]
         ),
         .testTarget(
@@ -64,7 +68,8 @@ let package = Package(
         .target(
             name: "StringDecoder",
             dependencies: [
-                "Coder"
+                "Coder",
+                .product(name: "Functional", package: "swift-functional")
             ]
         ),
         .testTarget(
@@ -75,7 +80,8 @@ let package = Package(
         .target(
             name: "StringEncoder",
             dependencies: [
-                "Coder"
+                "Coder",
+                .product(name: "Functional", package: "swift-functional")
             ]
         ),
         .testTarget(
