@@ -8,6 +8,15 @@
         "revision" : "31b5b18556610a5639d50eb56575b6a54db13f1c",
         "version" : "1.1.0"
       }
+    },
+    {
+      "identity" : "swift-functional",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:spacenation/swift-functional.git",
+      "state" : {
+        "revision" : "45aed19a2399e4100955db9ca7a2ea88009b6332",
+        "version" : "0.1.0"
+      }
     }
   ],
   "version" : 2

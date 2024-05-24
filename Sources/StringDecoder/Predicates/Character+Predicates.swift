@@ -12,6 +12,10 @@ public func isDigit(_ c: Character) -> Bool {
     "0"..."9" ~= c
 }
 
+public func isPositiveDigit(_ c: Character) -> Bool {
+    "1"..."9" ~= c
+}
+
 public func isLetter(_ c: Character) -> Bool {
     c.isLetter
 }
