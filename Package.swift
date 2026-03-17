@@ -23,8 +23,8 @@ let package = Package(
             targets: ["StringEncoder"])
     ],
     dependencies: [
-        .package(url: "git@github.com:spacenation/swift-binary.git", .upToNextMajor(from: "1.1.0")),
-        .package(url: "git@github.com:spacenation/swift-functional.git", .upToNextMajor(from: "0.1.0"))
+        .package(url: "https://github.com/spacenation/swift-binary.git", .upToNextMajor(from: "1.1.0")),
+        .package(url: "https://github.com/spacenation/swift-functional.git", .upToNextMajor(from: "0.1.0"))
     ],
     targets: [
         .target(
